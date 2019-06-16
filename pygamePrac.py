@@ -15,11 +15,13 @@ pygame.display.set_caption("A bit Racey")
 black = (0,0,0)
 white = (255,255,255)
 
+car_width = 73
+
 
 #our game clock
 clock = pygame.time.Clock()
-crashed = False
-carImg = pygame.image.load('racecar.png')
+gameExit = False
+carImg = pygame.image.load('BoogerbeingComic.png')
 
 def car(x,y):
     #Apparently blit just draws something to the screen
@@ -30,12 +32,16 @@ y = (displayHeight * 0.8)
 xChange = 0
 carSpeed = 0
 
-while not crashed:
+while not gameExit:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             crashed = True
 
         #print(event)
+
+    #I think if I was going to have it not exit I would rather do the
+    #handling of edges up here
+    #That way I can just stop the change from happening
 
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
@@ -52,6 +58,9 @@ while not crashed:
 
     gameDisplay.fill(white)
     car(x,y)
+
+    if x > displayWidth - car_width or x < 0:
+        gameExit = True
 
     pygame.display.update()
     clock.tick(60)
